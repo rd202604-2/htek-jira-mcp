@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jira Server 问题分诊"
+  short_description: "分诊 Jira Server 缺陷与重复问题"
+  default_prompt: "使用 $jira-server-triage-issue 判断这条错误报告是否已在 Jira Server 中存在，并给出处理建议。"

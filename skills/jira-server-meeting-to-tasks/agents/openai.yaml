@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jira Server 会议纪要转任务"
+  short_description: "把会议行动项转成 Jira Server 任务"
+  default_prompt: "使用 $jira-server-meeting-to-tasks 将这份会议纪要提取为 Jira Server 任务和子任务。"

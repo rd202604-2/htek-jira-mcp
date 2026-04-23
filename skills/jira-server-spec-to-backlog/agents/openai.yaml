@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jira Server 需求转 Backlog"
+  short_description: "把需求拆成 Jira Server backlog"
+  default_prompt: "使用 $jira-server-spec-to-backlog 将这份需求拆解为适合 Jira Server 的父任务、任务和子任务。"
