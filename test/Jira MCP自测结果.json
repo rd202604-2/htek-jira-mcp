@@ -1,6 +1,7 @@
 {
-  "started_at": "2026-04-22T18:42:57.452267+08:00",
-  "project": "TASK",
+  "started_at": "2026-04-24T15:23:13.477057+08:00",
+  "project": "PR",
+  "mode": "all",
   "checks": [
     {
       "name": "jira_whoami",
@@ -52,46 +53,63 @@
       "name": "get_jira_issue_type_fields",
       "status": "passed",
       "details": {
-        "required_fields": [
+        "issue_type": "任务",
+        "required_field_ids": [
           "summary",
           "issuetype",
-          "project",
-          "customfield_12800"
-        ]
+          "project"
+        ],
+        "additional_placeholder_keys": []
+      }
+    },
+    {
+      "name": "get_jira_issue_type_fields_subtask",
+      "status": "passed",
+      "details": {
+        "issue_type": "子任务",
+        "required_field_ids": [
+          "summary",
+          "parent",
+          "issuetype",
+          "project"
+        ],
+        "additional_placeholder_keys": []
       }
     },
     {
       "name": "create_jira_issue",
       "status": "passed",
       "details": {
-        "key": "TASK-138",
-        "id": "79795",
+        "key": "PR-616",
+        "id": "79864",
         "issue_type": "任务",
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-616"
       }
     },
     {
       "name": "update_jira_issue",
       "status": "passed",
       "details": {
-        "issue_key": "TASK-138",
+        "issue_key": "PR-616",
         "updated_fields": [
           "customfield_12800",
+          "customfield_13700",
           "description",
+          "duedate",
           "labels",
           "summary"
         ],
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-616"
       }
     },
     {
       "name": "add_jira_comment",
       "status": "passed",
       "details": {
-        "issue_key": "TASK-138",
-        "comment_id": "62189",
-        "created": "2026-04-22T18:42:59.546+0800",
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "issue_key": "PR-616",
+        "comment_id": "62233",
+        "created": "2026-04-24T15:23:15.049+0800",
+        "browse_url": "http://oa.htek.com:8088/browse/PR-616"
       }
     },
     {
@@ -105,85 +123,70 @@
       "name": "update_jira_assignee",
       "status": "passed",
       "details": {
-        "issue_key": "TASK-138",
+        "issue_key": "PR-616",
         "assignee_username": "russell.zhang",
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-616"
       }
     },
     {
       "name": "list_jira_transitions",
-      "status": "passed",
+      "status": "skipped",
       "details": {
-        "issue_key": "TASK-138",
-        "transitions": [
-          {
-            "id": "11",
-            "name": "开始处理",
-            "to_status": "处理中"
-          }
-        ]
-      }
-    },
-    {
-      "name": "transition_jira_issue",
-      "status": "passed",
-      "details": {
-        "issue_key": "TASK-138",
-        "transition_id": "11",
-        "transition_name": "开始处理",
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "issue_key": "PR-616",
+        "transitions": [],
+        "reason": "当前状态下无可用 outward 流转（测试项目起始状态常见）；已跳过 transition_jira_issue。"
       }
     },
     {
       "name": "get_jira_issue",
       "status": "passed",
       "details": {
-        "key": "TASK-138",
-        "summary": "[Codex Selftest 20260422-184257] Parent task updated",
+        "key": "PR-616",
+        "summary": "[Codex Selftest 20260424-152313] Parent task updated",
         "description": "Updated by Codex self-test.",
-        "status": "处理中",
+        "status": "任务规划",
         "issue_type": "任务",
         "priority": "P3",
         "labels": [
-          "codex-selftest-20260422-184257"
+          "codex-selftest-20260424-152313"
         ],
         "parent": null,
         "assignee": "张力山",
         "reporter": "张力山",
-        "created": "2026-04-22T18:42:58.000+0800",
-        "updated": "2026-04-22T18:43:00.000+0800",
+        "created": "2026-04-24T15:23:14.000+0800",
+        "updated": "2026-04-24T15:23:15.000+0800",
         "resolution": null,
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-616"
       }
     },
     {
       "name": "create_jira_subtask",
       "status": "passed",
       "details": {
-        "key": "TASK-139",
-        "id": "79796",
+        "key": "PR-617",
+        "id": "79865",
         "issue_type": "子任务",
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-139"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-617"
       }
     },
     {
       "name": "get_jira_issue_subtask",
       "status": "passed",
       "details": {
-        "key": "TASK-139",
-        "summary": "[Codex Selftest 20260422-184257] Subtask",
+        "key": "PR-617",
+        "summary": "[Codex Selftest 20260424-152313] Subtask",
         "description": "Created by Codex self-test.",
         "status": "待办",
         "issue_type": "子任务",
         "priority": "P3",
         "labels": [],
-        "parent": "TASK-138",
-        "assignee": "张力山",
+        "parent": "PR-616",
+        "assignee": "CCB Plan",
         "reporter": "张力山",
-        "created": "2026-04-22T18:43:00.000+0800",
-        "updated": "2026-04-22T18:43:01.000+0800",
+        "created": "2026-04-24T15:23:16.000+0800",
+        "updated": "2026-04-24T15:23:16.000+0800",
         "resolution": null,
-        "browse_url": "http://oa.htek.com:8088/browse/TASK-139"
+        "browse_url": "http://oa.htek.com:8088/browse/PR-617"
       }
     },
     {
@@ -194,13 +197,13 @@
         "returned": 1,
         "issues": [
           {
-            "key": "TASK-138",
-            "summary": "[Codex Selftest 20260422-184257] Parent task updated",
-            "status": "处理中",
+            "key": "PR-616",
+            "summary": "[Codex Selftest 20260424-152313] Parent task updated",
+            "status": "任务规划",
             "issue_type": "任务",
             "priority": "P3",
             "assignee": "张力山",
-            "updated": "2026-04-22T18:43:00.000+0800"
+            "updated": "2026-04-24T15:23:15.000+0800"
           }
         ]
       }
@@ -208,18 +211,18 @@
   ],
   "artifacts": {
     "parent_issue": {
-      "key": "TASK-138",
-      "id": "79795",
+      "key": "PR-616",
+      "id": "79864",
       "issue_type": "任务",
-      "browse_url": "http://oa.htek.com:8088/browse/TASK-138"
+      "browse_url": "http://oa.htek.com:8088/browse/PR-616"
     },
     "subtask_issue": {
-      "key": "TASK-139",
-      "id": "79796",
+      "key": "PR-617",
+      "id": "79865",
       "issue_type": "子任务",
-      "browse_url": "http://oa.htek.com:8088/browse/TASK-139"
+      "browse_url": "http://oa.htek.com:8088/browse/PR-617"
     }
   },
-  "finished_at": "2026-04-22T18:43:01.485832+08:00",
+  "finished_at": "2026-04-24T15:23:16.864969+08:00",
   "status": "passed"
 }

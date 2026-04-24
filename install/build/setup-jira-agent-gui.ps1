@@ -68,7 +68,7 @@ $script:translations = @{
         jiraPassword = "Jira 密码"
         targetAgent = "目标 Agent"
         installPythonDeps = "安装 Python 依赖（mcp、PyYAML）"
-        importSkills = "导入 Codex Skills"
+        importSkills = "导入 Jira Skills（Codex 复制到 ~/.codex/skills；OpenClaw 写入 skills.load.extraDirs）"
         cursorScope = "Cursor 安装范围"
         install = "安装"
         close = "关闭"
@@ -97,7 +97,7 @@ $script:translations = @{
         jiraPassword = "Jira Password"
         targetAgent = "Target Agent"
         installPythonDeps = "Install Python dependencies (mcp, PyYAML)"
-        importSkills = "Import Codex Skills"
+        importSkills = "Import Jira skills (Codex: ~/.codex/skills; OpenClaw: skills.load.extraDirs)"
         cursorScope = "Cursor Scope"
         install = "Install"
         close = "Close"
@@ -343,11 +343,11 @@ function Refresh-UiState {
     $lblCursorScope.Enabled = $isCursor
     $cmbCursorScope.Enabled = $isCursor
 
-    $isCodex = ($cmbAgent.SelectedItem -eq "codex")
-    if (-not $isCodex) {
+    $canImportJiraSkills = ($cmbAgent.SelectedItem -eq "codex") -or ($cmbAgent.SelectedItem -eq "openclaw")
+    if (-not $canImportJiraSkills) {
         $chkImportSkills.Checked = $false
     }
-    $chkImportSkills.Enabled = $isCodex
+    $chkImportSkills.Enabled = $canImportJiraSkills
 }
 
 function Append-Status {

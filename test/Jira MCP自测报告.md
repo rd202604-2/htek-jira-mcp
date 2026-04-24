@@ -1,121 +1,278 @@
-# Jira MCP 自测报告
+# Jira MCP自测报告
 
-日期：2026-04-22  
-环境：Windows 上的 Codex Desktop，公司内网，Jira Server 地址为 `http://oa.htek.com:8088`  
-目标项目：`TASK`  
-结果：通过
+- 执行时间：`2026-04-24T15:23:13.477057+08:00`
+- 完成时间：`2026-04-24T15:23:16.864969+08:00`
+- 测试项目：`PR`
+- 测试模式：`all`
+- 总体结果：`passed`
 
-## 范围
+## 结果汇总
 
-本轮工作覆盖两个交付项：
+- 通过：`15` 项
+- 跳过：`1` 项
+- 失败：`0` 项
 
-1. 为本地 Jira Server MCP 补充项目管理相关操作能力。
-2. 新增 4 个适配 Jira Server 的 skill，用于状态汇报、需求拆解、问题分诊和会议纪要转任务。
+## 各项测试结果
 
-## 已实现的 MCP 功能
+### jira_whoami
 
-保留的已有功能：
-- `jira_whoami`
-- `list_jira_projects`
-- `search_jira_issues`
-- `get_jira_issue`
-- `get_jira_issue_types`
-- `create_jira_issue`
-- `add_jira_comment`
+- 状态：`passed`
+- 详情：
+```json
+{
+  "name": "russell.zhang",
+  "display_name": "张力山",
+  "email": "russell@htek.com",
+  "base_url": "http://oa.htek.com:8088"
+}
+```
 
-本次新增功能：
-- `search_jira_users`
-- `get_jira_issue_type_fields`
-- `create_jira_subtask`
-- `get_jira_comments`
-- `list_jira_transitions`
-- `transition_jira_issue`
-- `update_jira_assignee`
-- `update_jira_issue`
+### list_jira_projects
 
-## 已实现的 Skills
+- 状态：`passed`
+- 详情：
+```json
+{
+  "visible_project_count": 48,
+  "contains_target": true
+}
+```
 
-已创建到 `C:\Users\admin\.codex\skills`：
-- `jira-server-status-report`
-- `jira-server-spec-to-backlog`
-- `jira-server-triage-issue`
-- `jira-server-meeting-to-tasks`
+### search_jira_users
 
-校验结果：
-- 以上 4 个 skill 均通过 `quick_validate.py` 校验。
+- 状态：`passed`
+- 详情：
+```json
+{
+  "matches": [
+    {
+      "name": "russell.zhang",
+      "display_name": "张力山",
+      "email": "russell@htek.com",
+      "active": true
+    }
+  ]
+}
+```
 
-## 自测方法
+### get_jira_issue_types
 
-自动化自测脚本：
-- [Jira MCP自测脚本.py](Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
+- 状态：`passed`
+- 详情：
+```json
+{
+  "task_type": {
+    "id": "10002",
+    "name": "任务"
+  },
+  "subtask_type": {
+    "id": "10003",
+    "name": "子任务"
+  }
+}
+```
 
-JSON 结果文件：
-- [Jira MCP自测结果.json](Jira%20MCP%E8%87%AA%E6%B5%8B%E7%BB%93%E6%9E%9C.json)
+### get_jira_issue_type_fields
 
-本次针对真实 Jira Server 执行的测试流程如下：
+- 状态：`passed`
+- 详情：
+```json
+{
+  "issue_type": "任务",
+  "required_field_ids": [
+    "summary",
+    "issuetype",
+    "project"
+  ],
+  "additional_placeholder_keys": []
+}
+```
 
-1. 验证当前认证用户
-2. 列出可见项目
-3. 搜索当前 Jira 用户
-4. 读取 `TASK` 项目的 issue type
-5. 读取 `TASK` 项目的必填字段元数据
-6. 创建父任务
-7. 更新任务字段
-8. 添加评论并回读
-9. 更新负责人
-10. 查询状态流转并执行一次流转
-11. 创建子任务
-12. 回读父任务和子任务详情
-13. 按标签搜索刚创建的任务
+### get_jira_issue_type_fields_subtask
 
-## 自测结果汇总
+- 状态：`passed`
+- 详情：
+```json
+{
+  "issue_type": "子任务",
+  "required_field_ids": [
+    "summary",
+    "parent",
+    "issuetype",
+    "project"
+  ],
+  "additional_placeholder_keys": []
+}
+```
 
-通过的检查项：
-- `jira_whoami`
-- `list_jira_projects`
-- `search_jira_users`
-- `get_jira_issue_types`
-- `get_jira_issue_type_fields`
-- `create_jira_issue`
-- `update_jira_issue`
-- `add_jira_comment`
-- `get_jira_comments`
-- `update_jira_assignee`
-- `list_jira_transitions`
-- `transition_jira_issue`
-- `get_jira_issue`
-- `create_jira_subtask`
-- `get_jira_issue_subtask`
-- `search_jira_issues`
+### create_jira_issue
 
-自动化自测过程中创建的真实 Jira 测试单：
-- 父任务：`TASK-138`
-- 子任务：`TASK-139`
+- 状态：`passed`
+- 详情：
+```json
+{
+  "key": "PR-616",
+  "id": "79864",
+  "issue_type": "任务",
+  "browse_url": "http://oa.htek.com:8088/browse/PR-616"
+}
+```
 
-在调试 Jira Server 兼容性时额外创建的人工验证单：
-- 父任务：`TASK-136`
-- 子任务：`TASK-137`
+### update_jira_issue
 
-## 重要发现
+- 状态：`passed`
+- 详情：
+```json
+{
+  "issue_key": "PR-616",
+  "updated_fields": [
+    "customfield_12800",
+    "customfield_13700",
+    "description",
+    "duedate",
+    "labels",
+    "summary"
+  ],
+  "browse_url": "http://oa.htek.com:8088/browse/PR-616"
+}
+```
 
-1. `TASK` 项目在创建父任务和子任务时，都要求必填自定义字段 `customfield_12800`（`验收标准`）。
-2. 当前这套 Jira Server 在创建 issue 时，使用 issue type 的 `id` 比使用 issue type 的 `name` 更稳定。
-3. 如果机器走了会影响公司内网访问的 VPN，Jira 会访问失败；直接走公司内网时访问正常。
+### add_jira_comment
 
-## 已知限制
+- 状态：`passed`
+- 详情：
+```json
+{
+  "issue_key": "PR-616",
+  "comment_id": "62233",
+  "created": "2026-04-24T15:23:15.049+0800",
+  "browse_url": "http://oa.htek.com:8088/browse/PR-616"
+}
+```
 
-1. 当前 MCP 还不支持删除 issue，因此自测过程中创建的测试单仍保留在 Jira 中。
-2. 不同项目、不同 issue type 的必填字段不一致。在新项目里创建 issue 前，应先调用 `get_jira_issue_type_fields` 检查字段要求。
-3. 这些 skill 目前是工作流指导层，依赖当前 Codex 会话里已经可用的 MCP 工具。
+### get_jira_comments
 
-## 变更文件
+- 状态：`passed`
+- 详情：
+```json
+{
+  "total": 1
+}
+```
 
-核心实现：
-- [jira_server_mcp.py](../tools/jira_server_mcp.py)
-- [Jira MCP自测脚本.py](Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
+### update_jira_assignee
 
-Skills：
-- [jira-server-status-report](../skills/jira-server-status-report/SKILL.md)
-- [jira-server-spec-to-backlog](../skills/jira-server-spec-to-backlog/SKILL.md)
-- [jira-server-triage-issue](../skills/jira-server-triage-issue/SKILL.md)
-- [jira-server-meeting-to-tasks](../skills/jira-server-meeting-to-tasks/SKILL.md)
+- 状态：`passed`
+- 详情：
+```json
+{
+  "issue_key": "PR-616",
+  "assignee_username": "russell.zhang",
+  "browse_url": "http://oa.htek.com:8088/browse/PR-616"
+}
+```
+
+### list_jira_transitions
+
+- 状态：`skipped`
+- 详情：
+```json
+{
+  "issue_key": "PR-616",
+  "transitions": [],
+  "reason": "当前状态下无可用 outward 流转（测试项目起始状态常见）；已跳过 transition_jira_issue。"
+}
+```
+
+### get_jira_issue
+
+- 状态：`passed`
+- 详情：
+```json
+{
+  "key": "PR-616",
+  "summary": "[Codex Selftest 20260424-152313] Parent task updated",
+  "description": "Updated by Codex self-test.",
+  "status": "任务规划",
+  "issue_type": "任务",
+  "priority": "P3",
+  "labels": [
+    "codex-selftest-20260424-152313"
+  ],
+  "parent": null,
+  "assignee": "张力山",
+  "reporter": "张力山",
+  "created": "2026-04-24T15:23:14.000+0800",
+  "updated": "2026-04-24T15:23:15.000+0800",
+  "resolution": null,
+  "browse_url": "http://oa.htek.com:8088/browse/PR-616"
+}
+```
+
+### create_jira_subtask
+
+- 状态：`passed`
+- 详情：
+```json
+{
+  "key": "PR-617",
+  "id": "79865",
+  "issue_type": "子任务",
+  "browse_url": "http://oa.htek.com:8088/browse/PR-617"
+}
+```
+
+### get_jira_issue_subtask
+
+- 状态：`passed`
+- 详情：
+```json
+{
+  "key": "PR-617",
+  "summary": "[Codex Selftest 20260424-152313] Subtask",
+  "description": "Created by Codex self-test.",
+  "status": "待办",
+  "issue_type": "子任务",
+  "priority": "P3",
+  "labels": [],
+  "parent": "PR-616",
+  "assignee": "CCB Plan",
+  "reporter": "张力山",
+  "created": "2026-04-24T15:23:16.000+0800",
+  "updated": "2026-04-24T15:23:16.000+0800",
+  "resolution": null,
+  "browse_url": "http://oa.htek.com:8088/browse/PR-617"
+}
+```
+
+### search_jira_issues
+
+- 状态：`passed`
+- 详情：
+```json
+{
+  "total": 1,
+  "returned": 1,
+  "issues": [
+    {
+      "key": "PR-616",
+      "summary": "[Codex Selftest 20260424-152313] Parent task updated",
+      "status": "任务规划",
+      "issue_type": "任务",
+      "priority": "P3",
+      "assignee": "张力山",
+      "updated": "2026-04-24T15:23:15.000+0800"
+    }
+  ]
+}
+```
+
+## 本次产生的测试单
+
+- 父任务：`PR-616`  http://oa.htek.com:8088/browse/PR-616
+- 子任务：`PR-617`  http://oa.htek.com:8088/browse/PR-617
+
+## 输出文件
+
+- JSON：`C:\Users\admin\Documents\AllinAi\test\Jira MCP自测结果.json`
+- Markdown：`C:\Users\admin\Documents\AllinAi\test\Jira MCP自测报告.md`

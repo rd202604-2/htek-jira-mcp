@@ -82,6 +82,27 @@ def _normalize_base_url(raw_url: str) -> str:
     return f"{parsed.scheme}://{parsed.netloc}"
 
 
+def _jira_createmeta_allowed_entry(value: Any) -> dict[str, Any]:
+    """
+    将 createmeta 里单条 allowedValues 规范为客户端可用的字典。
+
+    Jira 选项可能带 `id`、`name` 或 `value`；级联类字段创建时往往优先需要 `id`。
+    """
+    if not isinstance(value, dict):
+        return {"name": str(value)}
+    entry: dict[str, Any] = {}
+    if value.get("id") is not None:
+        entry["id"] = value["id"]
+    if value.get("name") is not None:
+        entry["name"] = value["name"]
+    if value.get("value") is not None:
+        entry["value"] = value["value"]
+    children = value.get("children")
+    if isinstance(children, list) and children:
+        entry["children"] = children
+    return entry if entry else {"name": str(value)}
+
+
 # 从环境变量读取连接配置，避免把敏感信息硬编码到脚本中。
 BASE_URL = _normalize_base_url(os.environ["HTEK_JIRA_BASE_URL"])
 USERNAME = os.environ["HTEK_JIRA_USERNAME"]
@@ -387,6 +408,8 @@ def get_jira_issue_type_fields(project_key: str, issue_type: str) -> dict[str, A
 
     返回：
     - 该类型下的字段定义，包括必填标记、类型和允许值。
+    - `allowed_values` 为列表，元素为 `{"id"?, "name"?, "value"?, "children"?}`；级联选项可能在首层带 `children`，
+      自测脚本会向下取第一个子选项以满足「父–子」校验。
     """
     query = urllib.parse.urlencode({"projectKeys": project_key, "expand": "projects.issuetypes.fields"})
     data = _request("GET", f"/rest/api/2/issue/createmeta?{query}")
@@ -405,8 +428,7 @@ def get_jira_issue_type_fields(project_key: str, issue_type: str) -> dict[str, A
                         "required": meta.get("required", False),
                         "schema_type": (meta.get("schema") or {}).get("type"),
                         "allowed_values": [
-                            value.get("name") if isinstance(value, dict) else value
-                            for value in (meta.get("allowedValues") or [])
+                            _jira_createmeta_allowed_entry(value) for value in (meta.get("allowedValues") or [])
                         ],
                     }
                 )

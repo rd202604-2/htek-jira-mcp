@@ -334,8 +334,48 @@ function Ensure-CursorConfig {
     Write-Step ("Cursor config updated: {0}" -f $configPath)
 }
 
+function Add-OpenClawSkillsExtraDir {
+    <#
+    将本仓库 skills/ 目录加入 ~/.openclaw/openclaw.json 的 skills.load.extraDirs，
+    与 https://docs.openclaw.ai/tools/skills-config 一致；与复制到 ~/.codex/skills 不同，此处用路径引用避免重复内容。
+    #>
+    param(
+        [hashtable]$Data,
+        [string]$SkillsDirUnix
+    )
+
+    if (-not $Data.ContainsKey("skills")) {
+        $Data["skills"] = @{}
+    }
+    $skills = $Data["skills"]
+    if (-not $skills.ContainsKey("load")) {
+        $skills["load"] = @{}
+    }
+    $load = $skills["load"]
+    $list = [System.Collections.ArrayList]::new()
+    if ($load.ContainsKey("extraDirs")) {
+        $existing = $load["extraDirs"]
+        if ($null -ne $existing) {
+            foreach ($item in @($existing)) {
+                if ($null -ne $item -and "$item" -ne "") {
+                    if (-not $list.Contains("$item")) {
+                        [void]$list.Add("$item")
+                    }
+                }
+            }
+        }
+    }
+    if (-not $list.Contains($SkillsDirUnix)) {
+        [void]$list.Add($SkillsDirUnix)
+    }
+    $load["extraDirs"] = $list.ToArray()
+}
+
 function Ensure-OpenClawConfig {
-    param([string]$ResolvedRepoRoot)
+    param(
+        [string]$ResolvedRepoRoot,
+        [switch]$ImportSkills
+    )
 
     $configPath = Join-Path $HOME ".openclaw\openclaw.json"
     $scriptPath = (Join-Path $ResolvedRepoRoot "tools\jira_server_mcp.py") -replace '\\', '/'
@@ -351,6 +391,17 @@ function Ensure-OpenClawConfig {
     $data["mcp"]["servers"]["htek_jira_server"] = @{
         command = "python"
         args = @($scriptPath)
+    }
+
+    if ($ImportSkills) {
+        $localSkills = Join-Path $ResolvedRepoRoot "skills"
+        if (Test-Path -LiteralPath $localSkills) {
+            $skillsDirUnix = ($localSkills -replace '\\', '/')
+            Add-OpenClawSkillsExtraDir -Data $data -SkillsDirUnix $skillsDirUnix
+            Write-Step ("OpenClaw skills.load.extraDirs includes: {0}" -f $skillsDirUnix)
+        } else {
+            Write-WarnLine "skills directory was not found, skipped OpenClaw extraDirs: $localSkills"
+        }
     }
 
     Save-JsonObject -Path $configPath -Data $data
@@ -424,8 +475,12 @@ function Show-NextSteps {
             Write-Host "3. Ask Cursor: list the Jira projects I can access"
         }
         "openclaw" {
-            Write-Host "1. Restart OpenClaw or reload MCP config"
+            Write-Host "1. Restart OpenClaw or reload MCP / skills"
             Write-Host "2. Verify htek_jira_server is available"
+            if ($SkillsImported) {
+                Write-Host "3. Jira skills: repo skills/ is registered in skills.load.extraDirs; try (per SKILL.md) e.g. " -NoNewline
+                Write-Host '$jira-server-status-report' -ForegroundColor Cyan
+            }
         }
         "hermes" {
             Write-Host "1. Restart Hermes or run /reload-mcp"
@@ -465,7 +520,7 @@ if (-not $NonInteractive) {
         }
     }
     if (-not $PSBoundParameters.ContainsKey("ImportSkills")) {
-        $ImportSkills = Read-YesNo -Prompt "Import Codex skills" -DefaultValue ($Agent -eq "codex")
+        $ImportSkills = Read-YesNo -Prompt "Import Jira skills (Codex: copy to ~/.codex/skills; OpenClaw: add skills.load.extraDirs)" -DefaultValue ($Agent -eq "codex" -or $Agent -eq "openclaw")
     }
     if ($Agent -eq "cursor" -and -not $CursorInstallScope) {
         $scopeChoice = Read-MenuChoice -Title "Choose Cursor config scope" -Items @("Project level", "Global")
@@ -501,10 +556,7 @@ switch ($Agent) {
         }
     }
     "openclaw" {
-        Ensure-OpenClawConfig -ResolvedRepoRoot $resolvedRepoRoot
-        if ($ImportSkills) {
-            Write-WarnLine "OpenClaw does not read Codex skills directly. Skill import was skipped."
-        }
+        Ensure-OpenClawConfig -ResolvedRepoRoot $resolvedRepoRoot -ImportSkills:$ImportSkills
     }
     "hermes" {
         Ensure-HermesConfig -ResolvedRepoRoot $resolvedRepoRoot

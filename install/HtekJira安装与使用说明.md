@@ -93,8 +93,8 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
 
 说明：
 
-- `skill` 目前只会真正导入到 `Codex`
-- `Cursor`、`OpenClaw`、`Hermes` 会安装同一个 Jira MCP，但不会直接读取 Codex skill
+- 勾选「导入 Jira skills」时：**Codex** 会复制到 `~/.codex/skills`；**OpenClaw** 会在 `~/.openclaw/openclaw.json` 中把本仓库的 `skills/` 加入 `skills.load.extraDirs`（[OpenClaw 文档](https://docs.openclaw.ai/tools/skills-config)），与仅复制到 Codex 的用法不同、效果等价。
+- `Cursor`、`Hermes` 会安装 Jira MCP，但安装器**不会**为它们注册上述 skill 目录，请用 `docs/` 内 Prompt 模板等自行配置。
 
 适用场景：
 
@@ -106,7 +106,7 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
 
 - [EXE打包说明.md](build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
 
-## 3. 如何检查 4 个 Agent 中 `htek_jira_server` 是否已安装成功
+## 3. 如何检查 4 个 Agent 中 `htek_jira_server` MCP 是否已安装成功
 
 本仓库安装器在「目标 agent」中可选：`Codex`、`Cursor`、`OpenClaw`、`Hermes`（见上文「通用安装步骤」）。下面按同一套思路做验收：配置文件是否已写入 → 本机/进程能否读到 Jira 环境变量（安装器在 **Windows** 上写入**用户级**的 `HTEK_JIRA_BASE_URL` / `HTEK_JIRA_USERNAME` / `HTEK_JIRA_PASSWORD`） → 在对应应用内重启后做一次能力验证（自然语言、界面或命令行）。`JiraMCPInstaller.exe`、`JiraMCPInstallerGUI.exe` 与 `install/build/setup-jira-agent.ps1` 目前**仅针对 Windows**；**macOS、Linux 不支持用本仓库安装器完成上述自动化**，需在各自系统上自行设置与 `jira_server_mcp.py` 相同的环境变量，并手工编辑各 Agent 的配置文件。本文以下路径、PowerShell 示例与「重新登录」等说明均以 **Windows** 为准。
 
@@ -137,7 +137,7 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
   enabled = true
   ```
 
-- **算安装成功的表现**：修改后**已重启** Codex Desktop，在对话里能正常调用与 Jira 相关的能力（或执行下文「3.6 自然语言试跑」的示例）。
+- **算安装成功的表现**：修改后**已重启** Codex Desktop，在对话里能正常调用与 Jira 相关的能力（或执行下文「3.6 自然语言试跑」的示例）。**Jira skills** 是否安装成功见 **§4.1**。
 
 ### 3.3 Cursor
 
@@ -171,7 +171,7 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
 
   ![Cursor 安装成功示例](images/cursor安装成功示例.png)
 
-- **项目级 / 全局对照**（可选）：安装范围说明可参考 [项目级和全局安装MCP](images/项目级和全局安装MCP.png)。
+- **项目级 / 全局对照**（可选）：安装范围说明可参考 [项目级和全局安装MCP](images/项目级和全局安装MCP.png)。**Jira skills**：本安装器不支持在 Cursor 自动安装，见 **§4.2**。
 
 ### 3.4 OpenClaw
 
@@ -189,7 +189,7 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
   }
   ```
 
-- **算安装成功的表现**：保存后按 OpenClaw 文档**重启/重载 MCP**（以你使用的版本为准），确认 UI 或命令行中能看到已连接的 `htek_jira_server`，并能在对话中执行下文章节里的 Jira 类请求。
+- **算安装成功的表现**：保存后按 OpenClaw 文档**重启/重载 MCP**（以你使用的版本为准），确认可以连接 `htek_jira_server`，并能在对话中执行下文章节「3.6」的 Jira 类试跑。**Jira skills** 是否安装成功见 **§4.3**。
 
 ### 3.5 Hermes
 
@@ -204,7 +204,7 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
         - "<仓库绝对路径>/tools/jira_server_mcp.py"
   ```
 
-- **算安装成功的表现**：按 Hermes 使用说明**重启 Hermes 或执行其 `/reload-mcp` 等重载**后，在界面或提示中可确认 Jira MCP 已加载，并能完成 3.6 的试跑。
+- **算安装成功的表现**：按 Hermes 使用说明**重启 Hermes 或执行其 `/reload-mcp` 等重载**后，在界面或提示中可确认 Jira MCP 已加载，并能完成 3.6 的试跑。**Jira skills**：本安装器不支持，见 **§4.4**。
 
 ### 3.6 自然语言试跑（四 Agent 通用）
 
@@ -218,9 +218,65 @@ powershell -ExecutionPolicy Bypass -File .\install\build\setup-jira-agent.ps1
 查看 RDTASK 最近 7 天更新的任务
 ```
 
-注意：`skills/` 下 Jira 相关 skill 仅**安装为 Codex skill** 时由 Codex 使用；在 Cursor、OpenClaw、Hermes 中验收时以 **MCP 工具/对话能否访问 Jira** 为准，不要求在 Cursor 里复现 Codex 的 skill 名。
+注意：本节只验证 **MCP**；各 Agent 上 **Jira skills** 是否就绪见 **§4**。
 
-## 4. 故障排查
+## 4. 如何检查 4 个 Agent 中 Jira skills 是否安装成功
+
+本仓库安装器在勾选「导入 Jira skills」时的行为（与 [setup-jira-agent.ps1](build/setup-jira-agent.ps1) 中 `Install-CodexSkills`、`Ensure-OpenClawConfig -ImportSkills` 一致）：
+
+- **Codex**：将仓库 `skills/` **复制**到 `~/.codex/skills`。
+- **OpenClaw**：在 `~/.openclaw/openclaw.json` 的 **`skills.load.extraDirs`** 中加入本仓库 `skills/` 的绝对路径（不复制文件）。
+- **Cursor / Hermes**：**当前安装器不支持**为二者自动注册本仓库的 Jira skills；请使用 `docs/` 下 Prompt 模板或各产品自带的 Rules / 知识库自行编排。**后续若增加官方支持，再更新本节。**
+
+### 4.1 Codex Desktop
+
+- **要检查的目录**：`%USERPROFILE%\.codex\skills\`（即 `~/.codex/skills/`）。
+- **应存在的内容**：与仓库 `skills/` 同名的子目录，且每个目录内有 `SKILL.md`，至少包括：
+  - `jira-server-status-report`
+  - `jira-server-spec-to-backlog`
+  - `jira-server-triage-issue`
+  - `jira-server-meeting-to-tasks`
+- **PowerShell 快速检查**（存在即表示复制安装到位）：
+
+  ```powershell
+  Get-ChildItem "$env:USERPROFILE\.codex\skills" -Directory | Select-Object Name
+  Test-Path "$env:USERPROFILE\.codex\skills\jira-server-status-report\SKILL.md"
+  ```
+
+- **算安装成功的表现**：**重启** Codex Desktop 后，在对话中可尝试使用 [HtekJira Skills中文Prompt模板.md](../docs/HtekJira%20Skills%E4%B8%AD%E6%96%87Prompt%E6%A8%A1%E6%9D%BF.md) 中的 **`$jira-server-status-report`** 等调用；若模型能按 skill 工作流执行（且 **§3** 中 MCP 已就绪），可认为 skills 与 MCP 链路均可用。
+
+### 4.2 Cursor
+
+- **结论**：**本仓库安装器当前不支持在 Cursor 中自动安装上述 Jira skills**（安装时勾选「导入 skills」对 Cursor 不生效，见 `setup-jira-agent.ps1` 中 Cursor 分支说明）。
+- **验收方式**：不适用「是否已安装本仓库 skills」这一项；请用 **§3.3** 验证 **MCP**，并用 `docs/` 内 Prompt 模板手工编排。**后续若提供 Cursor 侧 skills/rules 一键安装，本节再补充。**
+
+### 4.3 OpenClaw
+
+- **要检查的文件**：`%USERPROFILE%\.openclaw\openclaw.json`。
+- **应存在的结构**（仅在安装时勾选了「导入 Jira skills」时由安装器写入，与 `Add-OpenClawSkillsExtraDir` 一致）：
+
+  ```json
+  "skills": {
+    "load": {
+      "extraDirs": ["<仓库绝对路径>/skills"]
+    }
+  }
+  ```
+
+  `extraDirs` 中路径须仍指向**当前**本机上的仓库 `skills` 目录（正斜杠）；仓库若整体移动，需**重跑安装并勾选导入**或手改该路径。加载规则见 [OpenClaw skills 文档](https://docs.openclaw.ai/tools/skills-config)。
+
+- **算安装成功的表现**：**重启或重载** OpenClaw 后，在客户端中能看到本仓库各 `SKILL.md` 对应的技能（具体入口以所用 OpenClaw 版本为准）；再结合 **§3.6** 或 `docs/HtekJira Skills中文Prompt模板.md` 中的 **`$jira-server-status-report`** 等做一次试跑（前提：**§3.4** 中 `htek_jira_server` MCP 已配置）。
+
+### 4.4 Hermes
+
+- **结论**：**本仓库安装器当前不支持在 Hermes 中自动安装上述 Jira skills**；Hermes 侧仅维护 **MCP**（见 **§3.5**）。
+- **验收方式**：不适用「是否已安装本仓库 skills」；请仅按 **§3.5** 验证 MCP。**后续若 Hermes 增加与本仓库对齐的 skills 安装路径，本节再补充。**
+
+### 4.5 自然语言试跑（仅适用于已安装 skills 的 Agent）
+
+在 **Codex** 或 **OpenClaw**（且 **§4.1 / §4.3** 已满足）中，可选用与 **§3.6** 相同或 [HtekJira Skills中文Prompt模板.md](../docs/HtekJira%20Skills%E4%B8%AD%E6%96%87Prompt%E6%A8%A1%E6%9D%BF.md) 中的 **`$jira-server-status-report`** 等示例；**Cursor / Hermes** 请改用「直接说明要用 Jira MCP 列出项目 / 搜索 issue」等表述，不要求 `$` skill 名。
+
+## 5. 故障排查
 
 ### 问题 1：Codex 看不到 Jira MCP
 
@@ -274,7 +330,7 @@ echo $env:HTEK_JIRA_PASSWORD
 2. 再查看字段元数据
 3. 补齐字段后再创建
 
-## 5. 推荐阅读
+## 6. 推荐阅读
 
 - [README.md](../README.md)
 - [EXE打包说明.md](build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
