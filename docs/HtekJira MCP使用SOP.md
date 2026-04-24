@@ -197,8 +197,8 @@
 
 推荐先从以下文档复制模板：
 
-- [HtekJira内部标准Prompt模板.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira内部标准Prompt模板.md)
-- [HtekJira分部门Prompt模板.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira分部门Prompt模板.md)
+- [HtekJira内部标准Prompt模板.md](HtekJira内部标准Prompt模板.md)
+- [HtekJira分部门Prompt模板.md](HtekJira分部门Prompt模板.md)
 
 ## 8. 团队推荐话术
 
@@ -265,7 +265,7 @@
 
 ## 11. 相关文档
 
-- [HtekJira Skills中文Prompt模板.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira%20Skills%E4%B8%AD%E6%96%87Prompt%E6%A8%A1%E6%9D%BF.md)
-- [HtekJira内部标准Prompt模板.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira内部标准Prompt模板.md)
-- [HtekJira分部门Prompt模板.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira分部门Prompt模板.md)
-- [Jira MCP自测报告.md](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E6%8A%A5%E5%91%8A.md)
+- [HtekJira Skills中文Prompt模板.md](HtekJira%20Skills%E4%B8%AD%E6%96%87Prompt%E6%A8%A1%E6%9D%BF.md)
+- [HtekJira内部标准Prompt模板.md](HtekJira内部标准Prompt模板.md)
+- [HtekJira分部门Prompt模板.md](HtekJira分部门Prompt模板.md)
+- [Jira MCP自测报告.md](../test/Jira%20MCP%E8%87%AA%E6%B5%8B%E6%8A%A5%E5%91%8A.md)

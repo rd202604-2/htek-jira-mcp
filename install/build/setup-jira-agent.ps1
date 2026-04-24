@@ -229,6 +229,53 @@ function Ensure-CodexConfig {
     Write-Step ("Codex config updated: {0}" -f $configPath)
 }
 
+<#
+  ConvertFrom-Json -AsHashtable 需要 PowerShell 6+。GUI/控制台安装包常在 Windows
+  PowerShell 5.1 中运行，因此用 PSCustomObject + 手工递归，生成与后续
+  $data["key"] 访问兼容的嵌套 [hashtable]（含数组）。
+#>
+function Convert-JsonTreeToHashtable {
+    param(
+        [Parameter()]
+        [AllowNull()]
+        $InputObject
+    )
+
+    if ($null -eq $InputObject) {
+        return $null
+    }
+
+    if ($InputObject -is [System.Collections.IDictionary]) {
+        $out = @{}
+        foreach ($k in $InputObject.Keys) {
+            $out[$k] = Convert-JsonTreeToHashtable -InputObject $InputObject[$k]
+        }
+        return $out
+    }
+
+    if ($InputObject -is [string]) {
+        return $InputObject
+    }
+
+    if ($InputObject -is [pscustomobject]) {
+        $out = @{}
+        foreach ($prop in $InputObject.PSObject.Properties) {
+            $out[$prop.Name] = Convert-JsonTreeToHashtable -InputObject $prop.Value
+        }
+        return $out
+    }
+
+    if ($InputObject -is [System.Collections.IEnumerable]) {
+        $items = [System.Collections.ArrayList]::new()
+        foreach ($item in $InputObject) {
+            [void]$items.Add((Convert-JsonTreeToHashtable -InputObject $item))
+        }
+        return $items.ToArray()
+    }
+
+    return $InputObject
+}
+
 function Get-JsonObject {
     param([string]$Path)
 
@@ -241,7 +288,8 @@ function Get-JsonObject {
         return @{}
     }
 
-    return ($raw | ConvertFrom-Json -AsHashtable)
+    $obj = $raw | ConvertFrom-Json
+    return (Convert-JsonTreeToHashtable -InputObject $obj)
 }
 
 function Save-JsonObject {

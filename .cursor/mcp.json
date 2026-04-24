@@ -1,0 +1,10 @@
+﻿{
+    "mcpServers":  {
+                       "htek_jira_server":  {
+                                                "args":  [
+                                                             "${workspaceFolder}/tools/jira_server_mcp.py"
+                                                         ],
+                                                "command":  "python"
+                                            }
+                   }
+}

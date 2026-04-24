@@ -6,14 +6,14 @@
 
 当前支持打包的源脚本：
 
-- [setup-jira-agent.ps1](/C:/Users/admin/Documents/AllinAi/install/build/setup-jira-agent.ps1)
+- [setup-jira-agent.ps1](setup-jira-agent.ps1)
   命令行安装器
-- [setup-jira-agent-gui.ps1](/C:/Users/admin/Documents/AllinAi/install/build/setup-jira-agent-gui.ps1)
+- [setup-jira-agent-gui.ps1](setup-jira-agent-gui.ps1)
   图形界面安装器
 
 打包脚本：
 
-- [build-jira-installer.ps1](/C:/Users/admin/Documents/AllinAi/install/build/build-jira-installer.ps1)
+- [build-jira-installer.ps1](build-jira-installer.ps1)
 
 默认输出目录：
 
@@ -63,10 +63,10 @@ install/output/JiraMCPInstallerGUI.exe
 
 ## 4. 产物说明
 
-- [JiraMCPInstaller.exe](/C:/Users/admin/Documents/AllinAi/install/output/JiraMCPInstaller.exe)
+- [JiraMCPInstaller.exe](../output/JiraMCPInstaller.exe)
   控制台版安装器，适合命令行或脚本调用
 
-- [JiraMCPInstallerGUI.exe](/C:/Users/admin/Documents/AllinAi/install/output/JiraMCPInstallerGUI.exe)
+- [JiraMCPInstallerGUI.exe](../output/JiraMCPInstallerGUI.exe)
   图形界面版安装器，适合同事直接双击使用
 
 推荐分发方式：

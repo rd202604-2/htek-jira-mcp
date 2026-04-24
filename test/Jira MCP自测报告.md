@@ -47,10 +47,10 @@
 ## 自测方法
 
 自动化自测脚本：
-- [Jira MCP自测脚本.py](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
+- [Jira MCP自测脚本.py](Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
 
 JSON 结果文件：
-- [Jira MCP自测结果.json](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E7%BB%93%E6%9E%9C.json)
+- [Jira MCP自测结果.json](Jira%20MCP%E8%87%AA%E6%B5%8B%E7%BB%93%E6%9E%9C.json)
 
 本次针对真实 Jira Server 执行的测试流程如下：
 
@@ -111,11 +111,11 @@ JSON 结果文件：
 ## 变更文件
 
 核心实现：
-- [jira_server_mcp.py](/C:/Users/admin/Documents/AllinAi/tools/jira_server_mcp.py)
-- [Jira MCP自测脚本.py](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
+- [jira_server_mcp.py](../tools/jira_server_mcp.py)
+- [Jira MCP自测脚本.py](Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
 
 Skills：
-- [jira-server-status-report](/C:/Users/admin/.codex/skills/jira-server-status-report/SKILL.md)
-- [jira-server-spec-to-backlog](/C:/Users/admin/.codex/skills/jira-server-spec-to-backlog/SKILL.md)
-- [jira-server-triage-issue](/C:/Users/admin/.codex/skills/jira-server-triage-issue/SKILL.md)
-- [jira-server-meeting-to-tasks](/C:/Users/admin/.codex/skills/jira-server-meeting-to-tasks/SKILL.md)
+- [jira-server-status-report](../skills/jira-server-status-report/SKILL.md)
+- [jira-server-spec-to-backlog](../skills/jira-server-spec-to-backlog/SKILL.md)
+- [jira-server-triage-issue](../skills/jira-server-triage-issue/SKILL.md)
+- [jira-server-meeting-to-tasks](../skills/jira-server-meeting-to-tasks/SKILL.md)

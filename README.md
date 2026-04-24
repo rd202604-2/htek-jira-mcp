@@ -57,27 +57,27 @@
 ### 4.1 功能脚本
 
 - MCP 主脚本：
-  [jira_server_mcp.py](/C:/Users/admin/Documents/AllinAi/tools/jira_server_mcp.py)
+  [jira_server_mcp.py](tools/jira_server_mcp.py)
 
 ### 4.2 安装目录
 
 - 统一命令行安装器：
-  [setup-jira-agent.ps1](/C:/Users/admin/Documents/AllinAi/install/build/setup-jira-agent.ps1)
+  [setup-jira-agent.ps1](install/build/setup-jira-agent.ps1)
 - 图形界面安装器源码：
-  [setup-jira-agent-gui.ps1](/C:/Users/admin/Documents/AllinAi/install/build/setup-jira-agent-gui.ps1)
+  [setup-jira-agent-gui.ps1](install/build/setup-jira-agent-gui.ps1)
 - EXE 打包脚本：
-  [build-jira-installer.ps1](/C:/Users/admin/Documents/AllinAi/install/build/build-jira-installer.ps1)
+  [build-jira-installer.ps1](install/build/build-jira-installer.ps1)
 - EXE 打包说明：
-  [EXE打包说明.md](/C:/Users/admin/Documents/AllinAi/install/build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
+  [EXE打包说明.md](install/build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
 - 安装说明：
-  [HtekJira安装与使用说明.md](/C:/Users/admin/Documents/AllinAi/install/HtekJira安装与使用说明.md)
+  [HtekJira安装与使用说明.md](install/HtekJira安装与使用说明.md)
 
 ### 4.3 安装产物
 
 - 控制台版安装器：
-  [JiraMCPInstaller.exe](/C:/Users/admin/Documents/AllinAi/install/output/JiraMCPInstaller.exe)
+  [JiraMCPInstaller.exe](install/output/JiraMCPInstaller.exe)
 - 图形界面版安装器：
-  [JiraMCPInstallerGUI.exe](/C:/Users/admin/Documents/AllinAi/install/output/JiraMCPInstallerGUI.exe)
+  [JiraMCPInstallerGUI.exe](install/output/JiraMCPInstallerGUI.exe)
 
 ### 4.4 Skills
 
@@ -88,9 +88,9 @@
 
 ### 4.5 测试文件
 
-- [Jira MCP自测脚本.py](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
-- [Jira MCP自测结果.json](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E7%BB%93%E6%9E%9C.json)
-- [Jira MCP自测报告.md](/C:/Users/admin/Documents/AllinAi/test/Jira%20MCP%E8%87%AA%E6%B5%8B%E6%8A%A5%E5%91%8A.md)
+- [Jira MCP自测脚本.py](test/Jira%20MCP%E8%87%AA%E6%B5%8B%E8%84%9A%E6%9C%AC.py)
+- [Jira MCP自测结果.json](test/Jira%20MCP%E8%87%AA%E6%B5%8B%E7%BB%93%E6%9E%9C.json)
+- [Jira MCP自测报告.md](test/Jira%20MCP%E8%87%AA%E6%B5%8B%E6%8A%A5%E5%91%8A.md)
 
 ## 5. 相关文档
 
@@ -106,8 +106,8 @@ cd <仓库目录>
 ### 5.2 相关文档
 
 - 安装使用：
-  [HtekJira安装与使用说明.md](/C:/Users/admin/Documents/AllinAi/install/HtekJira安装与使用说明.md)
+  [HtekJira安装与使用说明.md](install/HtekJira安装与使用说明.md)
 - EXE 打包：
-  [EXE打包说明.md](/C:/Users/admin/Documents/AllinAi/install/build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
+  [EXE打包说明.md](install/build/EXE%E6%89%93%E5%8C%85%E8%AF%B4%E6%98%8E.md)
 - 团队 SOP：
-  [HtekJira MCP使用SOP.md](/C:/Users/admin/Documents/AllinAi/docs/HtekJira%20MCP%E4%BD%BF%E7%94%A8SOP.md)
+  [HtekJira MCP使用SOP.md](docs/HtekJira%20MCP%E4%BD%BF%E7%94%A8SOP.md)
